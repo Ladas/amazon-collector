@@ -1,14 +1,6 @@
 source 'https://rubygems.org'
 
-gem "activesupport"
-gem "concurrent-ruby"
-gem "optimist"
 gem "topological_inventory-ingress_api-client", :git => "https://github.com/ManageIQ/topological_inventory-ingress_api-client-ruby", :branch => "master"
-gem "more_core_extensions"
-
-
-# TODO(lsmola) we should probably list what services exactly we want? (and versions) Since this loads like 50 repos
-gem "aws-sdk", "~>3.0.0"
 
 # TODO do we need these?
 # s.add_development_dependency "codeclimate-test-reporter", "~> 1.0.0"
