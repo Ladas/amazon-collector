@@ -8,7 +8,7 @@ require "topological_inventory/amazon/parser"
 require "topological_inventory/amazon/iterator"
 require "topological_inventory/amazon/logging"
 require "topological_inventory-ingress_api-client"
-require "topological_inventory-ingress_api-client/inventory/saver"
+require "topological_inventory-ingress_api-client/save_inventory/saver"
 
 module TopologicalInventory
   module Amazon
@@ -32,9 +32,15 @@ module TopologicalInventory
       end
 
       def collect!
-        entity_types.each do |entity_type|
-          process_entity(entity_type)
+        loop do
+          entity_types.each do |entity_type|
+            process_entity(entity_type)
+          end
+
+          sleep(30)
         end
+      rescue => e
+        logger.error(e)
       end
 
       def stop
@@ -105,7 +111,7 @@ module TopologicalInventory
       def save_inventory(collections, refresh_state_uuid = nil, refresh_state_part_uuid = nil)
         return if collections.empty?
 
-        TopologicalInventoryIngressApiClient::Inventory::Saver.new(ingress_api_client, logger).save(
+        TopologicalInventoryIngressApiClient::SaveInventory::Saver.new(ingress_api_client, logger).save(
           :inventory => TopologicalInventoryIngressApiClient::Inventory.new(
             :name                    => "Amazon",
             :schema                  => TopologicalInventoryIngressApiClient::Schema.new(:name => "Default"),
@@ -118,7 +124,7 @@ module TopologicalInventory
       end
 
       def sweep_inventory(refresh_state_uuid, total_parts, sweep_scope)
-        TopologicalInventoryIngressApiClient::Inventory::Saver.new(ingress_api_client, logger).save(
+        TopologicalInventoryIngressApiClient::SaveInventory::Saver.new(ingress_api_client, logger).save(
           :inventory => TopologicalInventoryIngressApiClient::Inventory.new(
             :name               => "Amazon",
             :schema             => TopologicalInventoryIngressApiClient::Schema.new(:name => "Default"),
