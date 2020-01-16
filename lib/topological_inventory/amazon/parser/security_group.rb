@@ -5,6 +5,7 @@ module TopologicalInventory::Amazon
         stack_id = get_from_tags(sg.tags, "aws:cloudformation:stack-id")
         stack    = lazy_find(:orchestration_stacks, :source_ref => stack_id) if stack_id
         network  = lazy_find(:networks, :source_ref => sg.vpc_id) if sg.vpc_id
+        network_id = sg.vpc_id if network
 
         collections[:security_groups].data << TopologicalInventoryIngressApiClient::SecurityGroup.new(
           :source_ref          => sg.group_id,
@@ -17,7 +18,7 @@ module TopologicalInventory::Amazon
           :source_region       => lazy_find(:source_regions, :source_ref => scope[:region]),
           :subscription        => lazy_find_subscription(scope),
           :orchestration_stack => stack,
-          :network             => network,
+          :network_id          => network_id
         )
 
         parse_tags(:security_groups, sg.group_id, sg.tags)

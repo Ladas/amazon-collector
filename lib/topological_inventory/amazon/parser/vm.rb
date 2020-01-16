@@ -17,7 +17,7 @@ module TopologicalInventory::Amazon
           :mac_addresses        => parse_network(instance)[:mac_addresses],
           :source_region        => lazy_find(:source_regions, :source_ref => scope[:region]),
           :subscription         => lazy_find_subscription(scope),
-          :orchestration_stacks => stack,
+          :orchestration_stack  => stack
         )
 
         collections[:vms].data << vm

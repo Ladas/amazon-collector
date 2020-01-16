@@ -698,6 +698,7 @@ RSpec.describe TopologicalInventory::Amazon::Collector do
                                                           :ip_ranges   => [{:cidr_ip => "0.0.0.0/0"}],
                                                           :to_port     => 0}]},
            :name          => "security_group_0",
+           :network_id    => "vpc_0",
            :source_ref    => "security_group_0",
            :source_region =>
                              {:inventory_collection_name => :source_regions,
@@ -715,6 +716,7 @@ RSpec.describe TopologicalInventory::Amazon::Collector do
                                                           :ip_ranges   => [{:cidr_ip => "0.0.0.0/0"}],
                                                           :to_port     => 0}]},
            :name          => "security_group_0",
+           :network_id    => "vpc_0",
            :source_ref    => "security_group_0",
            :source_region =>
                              {:inventory_collection_name => :source_regions,
@@ -1035,7 +1037,7 @@ RSpec.describe TopologicalInventory::Amazon::Collector do
   end
 
   def format_hash(entity, parser, ignore: nil)
-    hash = parser.collections[entity].data.map(&:to_hash)
+    hash = parser.collections[entity].data.map { |h| h.to_hash.compact }
     if ignore
       hash = hash.map { |x| x.except(*ignore) }
     end
