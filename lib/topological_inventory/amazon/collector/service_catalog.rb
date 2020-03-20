@@ -57,28 +57,28 @@ module TopologicalInventory
           )
         rescue => e
           ident = {:product_id => product_id, :artifact_id => artifact_id, :launch_path_id => launch_path_id}
-          logger.warn("Couldn't fetch 'describe_provisioning_parameters' of service catalog for #{ident} with scope #{scope}, message: #{e.message}")
+          logger.error("Couldn't fetch 'describe_provisioning_parameters' of service catalog for #{ident} with scope #{scope}, message: #{e.message}")
           nil
         end
 
         def describe_product(product_id, scope)
           service_catalog_connection(scope).client.describe_product(:id => product_id).provisioning_artifacts
         rescue => e
-          logger.warn("Couldn't fetch 'describe_product' of service catalog with scope #{scope}, message: #{e.message}")
+          logger.error("Couldn't fetch 'describe_product' of service catalog with scope #{scope}, message: #{e.message}")
           []
         end
 
         def list_launch_paths(product_id, scope)
           service_catalog_connection(scope).client.list_launch_paths(:product_id => product_id).launch_path_summaries
         rescue => e
-          logger.warn("Couldn't fetch 'list_launch_paths' of service catalog with scope #{scope}, message: #{e.message}")
+          logger.error("Couldn't fetch 'list_launch_paths' of service catalog with scope #{scope}, message: #{e.message}")
           []
         end
 
         def describe_record(record_id, scope)
           service_catalog_connection(scope).client.describe_record(:id => record_id)
         rescue => e
-          logger.warn("Couldn't fetch 'describe_record' of service catalog with scope #{scope}, message: #{e.message}")
+          logger.error("Couldn't fetch 'describe_record' of service catalog with scope #{scope}, message: #{e.message}")
           nil
         end
       end

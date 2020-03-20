@@ -18,7 +18,7 @@ module TopologicalInventory
             begin
               master_account_id = organizations_connection(:region => default_region).client.describe_organization&.organization&.master_account_id
             rescue Aws::Organizations::Errors::AccessDeniedException => e
-              logger.warn("Can't access describe_organization API, [#{e.class}, #{e.message}]")
+              logger.error("Can't access describe_organization API, [#{e.class}, #{e.message}]")
             end
             if master_account_id
               begin
@@ -31,7 +31,7 @@ module TopologicalInventory
                   }
                 end
               rescue Aws::Organizations::Errors::AccessDeniedException => e
-                logger.warn("Can't access list_organizations API, [#{e.class}, #{e.message}]")
+                logger.error("Can't access list_organizations API, [#{e.class}, #{e.message}]")
               end
             end
           end
