@@ -17,7 +17,7 @@ module TopologicalInventory::Amazon
         yield(entity)
       end
     rescue => e
-      logger.warn("#{error_message}. Message: #{e.message}")
+      logger.error("#{error_message}. Message: #{e.message} #{e.backtrace.join('/n')}")
       []
     end
   end
