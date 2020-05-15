@@ -49,9 +49,6 @@ module TopologicalInventory
             entity_types.each do |entity_type|
               process_entity(entity_type, regions, accounts)
             end
-          rescue => e
-            logger.error(e)
-            metrics.record_error
           ensure
             standalone_mode ? sleep(poll_time) : stop
           end
@@ -96,6 +93,9 @@ module TopologicalInventory
         logger.sweeping(:start, source, sweep_scope, refresh_state_uuid)
         sweep_inventory(inventory_name, schema_name, refresh_state_uuid, total_parts, sweep_scope, refresh_state_started_at)
         logger.sweeping(:finish, source, sweep_scope, refresh_state_uuid)
+      rescue => e
+        metrics.record_error
+        logger.collecting_error(source, entity_type, refresh_state_uuid, e)
       end
 
       def build_scope(region, account)
