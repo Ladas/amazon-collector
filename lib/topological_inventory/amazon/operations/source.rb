@@ -10,7 +10,7 @@ module TopologicalInventory
 
         private
 
-        def connection_check(source_id)
+        def connection_check
           ec2_connection = TopologicalInventory::Amazon::Connection.ec2(
             :access_key_id     => authentication.username,
             :secret_access_key => authentication.password,
