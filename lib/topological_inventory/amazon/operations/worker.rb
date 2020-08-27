@@ -1,6 +1,7 @@
 require "topological_inventory/amazon/logging"
 require "topological_inventory/amazon/operations/processor"
 require "topological_inventory/amazon/operations/source"
+require "topological_inventory/providers/common/operations/health_check"
 
 module TopologicalInventory
   module Amazon
@@ -36,6 +37,7 @@ module TopologicalInventory
           raise
         ensure
           message.ack
+          TopologicalInventory::Providers::Common::Operations::HealthCheck.touch_file
         end
 
         def queue_name
