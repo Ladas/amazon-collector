@@ -26,7 +26,7 @@ module TopologicalInventory
         end
 
         def authentication
-          @authentication ||= api_client.fetch_authentication(source_id, endpoint, 'access_key_secret_key')
+          @authentication ||= sources_api.fetch_authentication(source_id, endpoint, 'access_key_secret_key')
         end
 
         def region
