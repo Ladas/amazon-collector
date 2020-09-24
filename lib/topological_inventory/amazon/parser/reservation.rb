@@ -23,7 +23,7 @@ module TopologicalInventory::Amazon
           },
           :state         => reservation.state,
           :start         => reservation.start,
-          :end           => reservation.end,
+          :_end          => reservation.end,
           :flavor        => flavor,
           :source_region => lazy_find(:source_regions, :source_ref => scope[:region]),
           :subscription  => lazy_find_subscription(scope),
