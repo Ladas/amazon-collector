@@ -2,6 +2,7 @@ require "topological_inventory/amazon/logging"
 require "topological_inventory/amazon/messaging_client"
 require "topological_inventory/amazon/operations/processor"
 require "topological_inventory/amazon/operations/source"
+require "topological_inventory/providers/common/mixins/statuses"
 require "topological_inventory/providers/common/operations/health_check"
 
 module TopologicalInventory
@@ -9,6 +10,11 @@ module TopologicalInventory
     module Operations
       class Worker
         include Logging
+        include TopologicalInventory::Providers::Common::Mixins::Statuses
+
+        def initialize(metrics:)
+          self.metrics = metrics
+        end
 
         def run
           logger.info("Topological Inventory Amazon Operations worker started...")
@@ -24,6 +30,8 @@ module TopologicalInventory
 
         private
 
+        attr_accessor :metrics
+
         def client
           @client ||= TopologicalInventory::Amazon::MessagingClient.default.worker_listener
         end
@@ -33,10 +41,11 @@ module TopologicalInventory
         end
 
         def process_message(message)
-          Processor.process!(message)
+          result = Processor.process!(message, metrics)
+          metrics&.record_operation(message, result)
         rescue => e
           logger.error("#{e}\n#{e.backtrace.join("\n")}")
-          raise
+          metrics&.record_operation(message, operation_status[:error])
         ensure
           message.ack
           TopologicalInventory::Providers::Common::Operations::HealthCheck.touch_file
