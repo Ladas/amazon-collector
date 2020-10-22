@@ -42,10 +42,10 @@ module TopologicalInventory
 
         def process_message(message)
           result = Processor.process!(message, metrics)
-          metrics&.record_operation(message, result)
+          metrics&.record_operation(message.message, :status => result)
         rescue => e
           logger.error("#{e}\n#{e.backtrace.join("\n")}")
-          metrics&.record_operation(message, operation_status[:error])
+          metrics&.record_operation(message.message, :status => operation_status[:error])
         ensure
           message.ack
           TopologicalInventory::Providers::Common::Operations::HealthCheck.touch_file

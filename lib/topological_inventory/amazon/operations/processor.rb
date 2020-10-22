@@ -44,7 +44,7 @@ module TopologicalInventory
 
         def with_time_measure
           if metrics.present?
-            metrics.record_operation_time("#{model}.#{method}") { yield }
+            metrics.record_operation_time(message.message) { yield }
           else
             yield
           end
