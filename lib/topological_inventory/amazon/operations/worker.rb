@@ -1,7 +1,6 @@
 require "topological_inventory/amazon/logging"
 require "topological_inventory/amazon/messaging_client"
 require "topological_inventory/amazon/operations/processor"
-require "topological_inventory/amazon/operations/source"
 require "topological_inventory/providers/common/mixins/statuses"
 require "topological_inventory/providers/common/operations/health_check"
 
@@ -12,7 +11,7 @@ module TopologicalInventory
         include Logging
         include TopologicalInventory::Providers::Common::Mixins::Statuses
 
-        def initialize(metrics:)
+        def initialize(metrics = nil)
           self.metrics = metrics
         end
 

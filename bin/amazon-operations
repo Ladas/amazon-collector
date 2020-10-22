@@ -48,7 +48,7 @@ Signal.trap("TERM") do
 end
 
 begin
-  operations_worker = TopologicalInventory::Amazon::Operations::Worker.new(:metrics => metrics)
+  operations_worker = TopologicalInventory::Amazon::Operations::Worker.new(metrics)
   operations_worker.run
 rescue => err
   puts err
