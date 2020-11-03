@@ -2,11 +2,12 @@ require "topological_inventory/amazon/operations/worker"
 
 RSpec.describe TopologicalInventory::Amazon::Operations::Worker do
   describe "#run" do
-    let(:client) { double("ManageIQ::Messaging::Client") }
     let(:subject) { described_class.new }
+    let(:client)  { double("ManageIQ::Messaging::Client") }
+
     before do
-      require "manageiq-messaging"
-      allow(ManageIQ::Messaging::Client).to receive(:open).and_return(client)
+      TopologicalInventory::Amazon::MessagingClient.class_variable_set(:@@default, nil)
+      allow(subject).to receive(:client).and_return(client)
       allow(client).to receive(:close)
     end
 
