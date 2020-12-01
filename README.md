@@ -1,6 +1,6 @@
 # Topological Inventory Amazon
 
-[![Build Status](https://travis-ci.org/RedHatInsights/topological_inventory-amazon.svg?branch=master)](https://travis-ci.org/RedHatInsights/topological_inventory-amazon)
+[![Build Status](https://travis-ci.com/RedHatInsights/topological_inventory-amazon.svg?branch=master)](https://travis-ci.com/RedHatInsights/topological_inventory-amazon)
 [![Maintainability](https://api.codeclimate.com/v1/badges/fd49345c28fa632ba2c6/maintainability)](https://codeclimate.com/github/RedHatInsights/topological_inventory-amazon/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/fd49345c28fa632ba2c6/test_coverage)](https://codeclimate.com/github/RedHatInsights/topological_inventory-amazon/test_coverage)
 [![security](https://hakiri.io/github/RedHatInsights/topological_inventory-amazon/master.svg)](https://hakiri.io/github/RedHatInsights/topological_inventory-amazon/master)
