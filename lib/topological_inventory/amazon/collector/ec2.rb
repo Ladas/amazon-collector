@@ -10,8 +10,31 @@ module TopologicalInventory
         end
 
         def vms(scope)
-          ec2_connection(scope).instances
+          ec2 = ec2_connection(scope)
+          instances = ec2.instances
+
+          rhel_images = rhel_images_for_instances(ec2, instances).each_with_object(Hash.new("")) { |img, h| h[img.image_id] = img.platform_details }
+
+          instances.each_with_object(Array.new) do |inst, ary|
+            ary << { :instance => inst, :is_rhel => rhel_images[inst.image_id] }
+          end
         end
+
+        def rhel_images_for_instances(ec2, instances)
+          ec2.images({ 
+            :image_ids => instances.collect { |i| i.image_id }.uniq!,
+            :filters   => [
+              {
+                :name   => "platform-details",
+                :values => [
+                  "Red Hat Enterprise Linux",
+                  "Red Hat BYOL Linux"
+                ]
+              }
+            ]
+          })
+        end
+        private :rhel_images_for_instances
 
         def availability_zones(scope)
           paginated_query(scope, :ec2_connection, :availability_zones)

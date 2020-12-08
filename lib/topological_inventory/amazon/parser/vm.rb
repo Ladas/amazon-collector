@@ -1,12 +1,15 @@
 module TopologicalInventory::Amazon
   class Parser
     module Vm
-      def parse_vms(instance, scope)
+      def parse_vms(instance_hash, scope)
+        instance = instance_hash[:instance]
         uid      = instance.id
         name     = get_from_tags(instance.tags, :name) || uid
         flavor   = lazy_find(:flavors, :source_ref => instance.instance_type) if instance.instance_type
         stack_id = get_from_tags(instance.tags, "aws:cloudformation:stack-id")
         stack    = lazy_find(:orchestration_stacks, :source_ref => stack_id) if stack_id
+
+        puts "**** #{uid} => #{instance_hash[:is_rhel]}"
 
         vm = TopologicalInventoryIngressApiClient::Vm.new(
           :source_ref          => uid,
