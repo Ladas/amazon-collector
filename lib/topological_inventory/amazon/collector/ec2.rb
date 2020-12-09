@@ -15,14 +15,14 @@ module TopologicalInventory
 
           rhel_images = rhel_images_for_instances(ec2, instances).each_with_object(Hash.new("")) { |img, h| h[img.image_id] = img.platform_details }
 
-          instances.each_with_object(Array.new) do |inst, ary|
-            ary << { :instance => inst, :is_rhel => rhel_images[inst.image_id] }
+          instances.each_with_object([]) do |inst, ary|
+            ary << {:instance => inst, :is_rhel => rhel_images[inst.image_id]}
           end
         end
 
         def rhel_images_for_instances(ec2, instances)
-          ec2.images({ 
-            :image_ids => instances.collect { |i| i.image_id }.uniq!,
+          ec2.images(
+            :image_ids => instances.collect(&:image_id).uniq!,
             :filters   => [
               {
                 :name   => "platform-details",
@@ -32,7 +32,7 @@ module TopologicalInventory
                 ]
               }
             ]
-          })
+          )
         end
         private :rhel_images_for_instances
 
