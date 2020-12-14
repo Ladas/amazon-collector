@@ -47,7 +47,9 @@ module TopologicalInventory
             accounts.delete_if { |account| !valid_account?(default_region, account) }
 
             entity_types.each do |entity_type|
-              process_entity(entity_type, regions, accounts)
+              metrics.record_refresh_timing(:entity_type => entity_type) do
+                process_entity(entity_type, regions, accounts)
+              end
             end
           ensure
             standalone_mode ? sleep(poll_time) : stop

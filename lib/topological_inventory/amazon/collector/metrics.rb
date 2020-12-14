@@ -2,17 +2,16 @@ require 'topological_inventory/providers/common/metrics'
 
 module TopologicalInventory
   module Amazon
-    module Operations
+    class Collector
       class Metrics < TopologicalInventory::Providers::Common::Metrics
-        ERROR_TYPES = %i[general sources_api].freeze
-        OPERATIONS = %w[Source.availability_check].freeze
+        ERROR_TYPES = %i[general].freeze
 
         def initialize(port = 9394)
           super(port)
         end
 
         def default_prefix
-          "topological_inventory_amazon_operations_"
+          "topological_inventory_amazon_collector_"
         end
       end
     end

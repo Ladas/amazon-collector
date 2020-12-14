@@ -1,4 +1,4 @@
-require "topological_inventory/amazon/collector/application_metrics"
+require "topological_inventory/amazon/collector/metrics"
 require "aws-sdk-ec2"
 require "aws-sdk-cloudformation"
 require "aws-sdk-pricing"
@@ -1108,7 +1108,7 @@ RSpec.describe TopologicalInventory::Amazon::Collector do
 
   def collect_and_parse(entity)
     parser  = TopologicalInventory::Amazon::Parser.new
-    metrics = instance_double(TopologicalInventory::Amazon::Collector::ApplicationMetrics,
+    metrics = instance_double(TopologicalInventory::Amazon::Collector::Metrics,
                               :record_error => nil)
 
     collector = TopologicalInventory::Amazon::Collector.new(

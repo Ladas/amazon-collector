@@ -8,7 +8,7 @@ STDOUT.sync = true
 require "bundler/setup"
 require "topological_inventory/amazon/collector"
 require "topological_inventory/amazon/collectors_pool"
-require "topological_inventory/amazon/collector/application_metrics"
+require "topological_inventory/amazon/collector/metrics"
 
 def parse_args
   require 'optimist'
@@ -53,17 +53,23 @@ ingress_api_uri = URI(args[:ingress_api])
 TopologicalInventoryIngressApiClient.configure.scheme = ingress_api_uri.scheme || "http"
 TopologicalInventoryIngressApiClient.configure.host   = "#{ingress_api_uri.host}:#{ingress_api_uri.port}"
 
-begin
-  metrics = TopologicalInventory::Amazon::Collector::ApplicationMetrics.new(args[:metrics_port])
-  if args[:config].nil?
-    collector = TopologicalInventory::Amazon::Collector.new(
-      args[:source], args[:access_key_id], args[:secret_access_key], args[:sub_account_role], metrics)
-    collector.collect!
-  else
-    pool = TopologicalInventory::Amazon::CollectorsPool.new(args[:config], metrics)
-    pool.run!
-  end
-ensure
-  pool&.stop!
+metrics = TopologicalInventory::Amazon::Collector::Metrics.new(args[:metrics_port])
+
+if args[:config].nil?
+  collector = TopologicalInventory::Amazon::Collector.new(
+    args[:source], args[:access_key_id], args[:secret_access_key], args[:sub_account_role], metrics)
+else
+  pool = TopologicalInventory::Amazon::CollectorsPool.new(args[:config], metrics)
+end
+
+Signal.trap("TERM") do
   metrics.stop_server
+  pool&.stop!
+  exit
+end
+
+if args[:config].nil?
+  collector.collect!
+else
+  pool.run!
 end
