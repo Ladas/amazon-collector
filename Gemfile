@@ -14,7 +14,7 @@ gem "prometheus_exporter", "~> 0.4.5"
 gem "rake", ">= 12.3.3"
 gem "rest-client", "~>2.0"
 gem "sources-api-client", "~> 3.0"
-gem "topological_inventory-ingress_api-client", "~> 1.0.1"
+gem "topological_inventory-ingress_api-client", "~> 1.0.4"
 gem "topological_inventory-providers-common", "~> 2.1.5"
 group :test, :development do
   gem "rspec"

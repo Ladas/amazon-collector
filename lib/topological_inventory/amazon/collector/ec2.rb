@@ -17,7 +17,7 @@ module TopologicalInventory
             h[img.image_id] = img.platform_details
           end
 
-          instances.map { |inst| {:instance => inst, :is_rhel => rhel_images[inst.image_id]} }
+          instances.map { |inst| {:instance => inst, :guest_info => rhel_images[inst.image_id]} }
         end
 
         def availability_zones(scope)

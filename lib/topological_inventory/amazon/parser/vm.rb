@@ -9,8 +9,6 @@ module TopologicalInventory::Amazon
         stack_id = get_from_tags(instance.tags, "aws:cloudformation:stack-id")
         stack    = lazy_find(:orchestration_stacks, :source_ref => stack_id) if stack_id
 
-        puts "**** #{uid} => #{instance_hash[:is_rhel]}"
-
         vm = TopologicalInventoryIngressApiClient::Vm.new(
           :source_ref          => uid,
           :uid_ems             => uid,
@@ -21,6 +19,7 @@ module TopologicalInventory::Amazon
           :source_region       => lazy_find(:source_regions, :source_ref => scope[:region]),
           :subscription        => lazy_find_subscription(scope),
           :orchestration_stack => stack,
+          :guest_info          => instance_hash[:guest_info]
         )
 
         collections[:vms].data << vm
