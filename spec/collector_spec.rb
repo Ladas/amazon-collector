@@ -22,6 +22,7 @@ RSpec.describe TopologicalInventory::Amazon::Collector do
            :name                => "instance_0",
            :orchestration_stack => nil,
            :power_state         => "on",
+           :guest_info          => nil,
            :source_ref          => "instance_0",
            :source_region       =>
                                    {:inventory_collection_name => :source_regions,
@@ -37,6 +38,7 @@ RSpec.describe TopologicalInventory::Amazon::Collector do
            :name                => "instance_ec2_0",
            :orchestration_stack => nil,
            :power_state         => "on",
+           :guest_info          => nil,
            :source_ref          => "instance_ec2_0",
            :source_region       =>
                                    {:inventory_collection_name => :source_regions,
@@ -52,6 +54,7 @@ RSpec.describe TopologicalInventory::Amazon::Collector do
            :name                => "instance_0",
            :orchestration_stack => nil,
            :power_state         => "on",
+           :guest_info          => nil,
            :source_ref          => "instance_0",
            :source_region       =>
                                    {:inventory_collection_name => :source_regions,
@@ -67,6 +70,7 @@ RSpec.describe TopologicalInventory::Amazon::Collector do
            :name                => "instance_ec2_0",
            :orchestration_stack => nil,
            :power_state         => "on",
+           :guest_info          => nil,
            :source_ref          => "instance_ec2_0",
            :source_region       =>
                                    {:inventory_collection_name => :source_regions,
