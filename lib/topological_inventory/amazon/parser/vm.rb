@@ -1,7 +1,8 @@
 module TopologicalInventory::Amazon
   class Parser
     module Vm
-      def parse_vms(instance, scope)
+      def parse_vms(instance_hash, scope)
+        instance = instance_hash[:instance]
         uid      = instance.id
         name     = get_from_tags(instance.tags, :name) || uid
         flavor   = lazy_find(:flavors, :source_ref => instance.instance_type) if instance.instance_type
@@ -18,6 +19,7 @@ module TopologicalInventory::Amazon
           :source_region       => lazy_find(:source_regions, :source_ref => scope[:region]),
           :subscription        => lazy_find_subscription(scope),
           :orchestration_stack => stack,
+          :guest_info          => instance_hash[:guest_info]
         )
 
         collections[:vms].data << vm

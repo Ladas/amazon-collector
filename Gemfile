@@ -14,7 +14,7 @@ gem "prometheus_exporter", "~> 0.4.5"
 gem "rake", ">= 12.3.3"
 gem "rest-client", "~>2.0"
 gem "sources-api-client", "~> 3.0"
-gem "topological_inventory-ingress_api-client", "~> 1.0.1"
+gem "topological_inventory-ingress_api-client", "~> 1.0.4"
 gem "topological_inventory-providers-common", "~> 2.1.5"
 group :test, :development do
   gem "rspec"
@@ -26,7 +26,7 @@ group :test, :development do
 end
 
 # Collector
-gem "aws-sdk-ec2", "~>1.102.0"
+gem "aws-sdk-ec2", "~>1.209.0"
 gem "aws-sdk-cloudformation", "~>1.25.0"
 gem "aws-sdk-organizations", "~>1.32.0"
 gem "aws-sdk-pricing", "~>1.15.0"
