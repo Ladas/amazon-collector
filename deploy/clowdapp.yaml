@@ -6,7 +6,7 @@ objects:
 - apiVersion: cloud.redhat.com/v1alpha1
   kind: ClowdApp
   metadata:
-    name: topological-inventory-amazon
+    name: topo-amazon
   spec:
     envName: ${ENV_NAME}
     deployments:
@@ -19,6 +19,8 @@ objects:
           enabled: false
       podSpec:
         image: ${IMAGE}:${IMAGE_TAG}
+        command:
+        - bin/amazon-operations
         env:
         - name: LOG_LEVEL
           value: ${LOG_LEVEL}
